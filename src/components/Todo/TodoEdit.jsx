@@ -1,9 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import CancelIcon from "../../assets/Todo/CancelIcon";
 
-export default function TodoEdit({ handleClose, todo }) {
+export default function TodoEdit({ handleClose, todoId }) {
   const [updatedTodo, setUpdatedTodo] = useState("");
   const [updatedDesc, setUpdatedDesc] = useState("");
+  const [todoById, setTodoById] = useState([]);
+
+  useEffect(() => {
+    const getTodo = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/todos/" + todoId);
+        const response = res.data.data;
+        setTodoById(response);
+        setUpdatedTodo(response.todo);
+        setUpdatedDesc(response.description);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getTodo();
+  }, []);
 
   const handleTodoChange = (e) => {
     setUpdatedTodo(e.target.value);
@@ -13,13 +30,23 @@ export default function TodoEdit({ handleClose, todo }) {
     setUpdatedDesc(e.target.value);
   };
 
-  const handleDeleteTask = () => {
-    // fungsi buat delete task
-  }
+  const handleDeleteTask = async () => {
+    try {
+      const res = await axios.delete("http://localhost:5000/todos/" + todoId);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleSaveTask = async () => {
-    // fungsi buat update task
-    console.log(updatedTodo + updatedDesc);
+    try {
+      const res = await axios.put("http://localhost:5000/todos/" + todoId, {
+        todo: updatedTodo,
+        description: updatedDesc,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -34,14 +61,14 @@ export default function TodoEdit({ handleClose, todo }) {
       </div>
       <input
         className="mb-3 w-full rounded-xl border-[1.6px] border-outlineGray bg-transparent px-5 py-5 text-lg font-medium text-allGray placeholder-allGray outline-none"
-        placeholder="Add New Task"
-        value={"todo"}
+        // placeholder={todoById.todo}
+        value={updatedTodo}
         onChange={handleTodoChange}
       />
       <input
         className="w-full rounded-xl border-[1.6px] border-outlineGray bg-transparent px-5 py-5 pb-28 text-lg font-medium text-allGray placeholder-allGray outline-none"
-        placeholder="Description"
-        value={"desc"}
+        // placeholder={todoById.description}
+        value={updatedDesc}
         onChange={handleDescChange}
       />
       <div className="mt-8 flex h-fit w-full justify-center gap-x-5">

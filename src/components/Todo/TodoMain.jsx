@@ -10,6 +10,7 @@ import TodoEdit from "./TodoEdit";
 export default function TodoMain() {
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [editTodo, setEditTodo] = useState([]);
   const [check, setCheck] = useState(null);
   const [todoList, setTodoList] = useState([]);
   const [trigger, setTrigger] = useState(false);
@@ -30,22 +31,31 @@ export default function TodoMain() {
     setShowAdd(!showAdd);
   }
 
-  function showEditTask() {
+  function showEditTask(id) {
     setShowEdit(!showEdit);
+    setEditTodo(id);
   }
 
-  async function handleCheckbox(id) {
-    setCheck(check)
+  async function handleCheckbox(todo) {
+    setCheck(check);
     try {
-      const res = await axios.post("http://localhost:5000/todos/${id}", {
-        checklist: check
-      })
+      const res = await axios.put(
+        "http://localhost:5000/todos/",
+        {
+          params: {
+            id: todo.id,
+          },
+        },
+        {
+          ...todo,
+          checklist: check,
+        }
+      );
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-    console.log(id);
     setTrigger(!trigger);
-    setCheck(null)
+    setCheck(null);
   }
 
   return (
@@ -53,20 +63,22 @@ export default function TodoMain() {
     <div className="z-0 flex flex-col lg:px-16">
       <TodoBar handleShowAdd={showAddTask} />
       {showAdd ? <TodoAdd handleClose={showAddTask} /> : null}
-      {showEdit ? <TodoEdit handleClose={showEditTask} /> : null}
+      {showEdit ? (
+        <TodoEdit handleClose={showEditTask} todoId={editTodo} />
+      ) : null}
       {todoList
         ? todoList.map((todo) => (
             <div key={todo._id}>
               <div className="flex items-center gap-x-6 px-5">
                 <div
-                  onClick={() => handleCheckbox(todo._id)}
+                  onClick={() => handleCheckbox(todo)}
                   className="flex h-5 w-6 cursor-pointer items-center justify-center rounded border-[1.6px] border-outlineGray bg-transparent"
                 >
                   {todo.checklist ? <CheckIcon /> : null}
                 </div>
                 <div
                   className="flex h-full w-full cursor-pointer items-center justify-between py-3"
-                  onClick={showEditTask}
+                  onClick={() => showEditTask(todo._id)}
                 >
                   <span className="text-lg font-semibold text-textGray ">
                     {todo.todo}
