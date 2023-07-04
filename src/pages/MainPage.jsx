@@ -4,9 +4,12 @@ import TodoMain from "../components/Todo/TodoMain";
 
 export default function MainPage() {
   return (
-    <div className="flex max-h-full min-h-screen w-full flex-col gap-6 bg-bgWhite px-5 pt-6">
-      <Header />
-      <TodoMain />
+    <div className="relative w-full min-h-screen bg-bgMain ">
+      {/* px sementara */}
+      <div className="flex w-full min-h-screen flex-col gap-6 px-5 pt-6 lg:px-36">
+        <Header />
+        <TodoMain />
+      </div>
     </div>
   );
 }

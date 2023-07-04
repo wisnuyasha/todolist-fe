@@ -7,11 +7,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        bgWhite: '#fafafa',
+        bgMain: '#fafafa',
+        bgBar: '#f4f4f4',
         titleBlack: '#212529',
         allGray: '#7c7c7c',
         textGray: '#444444',
-        outlineGray: '#ebebeb'
+        outlineGray: '#ebebeb',
+        iyellow: '#ffd43b'
       },
       fontFamily: {
         'roboto': ['Roboto', 'sans-serif'],
