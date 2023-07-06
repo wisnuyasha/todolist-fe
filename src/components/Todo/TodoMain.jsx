@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NextIcon from "../../assets/Todo/NextIcon";
 import CheckIcon from "../../assets/Todo/CheckIcon";
-import TodoList from "./TodoList";
 import TodoBar from "./TodoBar";
 import TodoAdd from "./TodoAdd";
 import TodoEdit from "./TodoEdit";
@@ -11,9 +10,8 @@ export default function TodoMain() {
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [editTodo, setEditTodo] = useState([]);
-  const [check, setCheck] = useState(null);
   const [todoList, setTodoList] = useState([]);
-  const [trigger, setTrigger] = useState(false);
+  const [trigger, setTrigger] = useState(true)
 
   useEffect(() => {
     const getTodo = async () => {
@@ -37,25 +35,27 @@ export default function TodoMain() {
   }
 
   async function handleCheckbox(todo) {
-    setCheck(check);
-    try {
-      const res = await axios.put(
-        "http://localhost:5000/todos/",
-        {
-          params: {
-            id: todo.id,
-          },
-        },
-        {
+    if (!todo.hasOwnProperty("checklist") || todo.checklist == false) {
+      try {
+        const res = await axios.put("http://localhost:5000/todos/" + todo._id, {
           ...todo,
-          checklist: check,
-        }
-      );
-    } catch (err) {
-      console.log(err);
+          checklist: true,
+        });
+        setTrigger(!trigger);
+      } catch (err) {
+        console.log(err);
+      }
+    } else if (todo.checklist == true) {
+      try {
+        const res = await axios.put("http://localhost:5000/todos/" + todo._id, {
+          ...todo,
+          checklist: false,
+        });
+        setTrigger(!trigger);
+      } catch (err) {
+        console.log(err);
+      }
     }
-    setTrigger(!trigger);
-    setCheck(null);
   }
 
   return (
@@ -71,7 +71,7 @@ export default function TodoMain() {
             <div key={todo._id}>
               <div className="flex items-center gap-x-6 px-5">
                 <div
-                  onClick={() => handleCheckbox(todo)}
+                  onClick={() => handleCheckbox(todo, todo.checklist)}
                   className="flex h-5 w-6 cursor-pointer items-center justify-center rounded border-[1.6px] border-outlineGray bg-transparent"
                 >
                   {todo.checklist ? <CheckIcon /> : null}

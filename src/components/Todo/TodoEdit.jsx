@@ -5,14 +5,12 @@ import CancelIcon from "../../assets/Todo/CancelIcon";
 export default function TodoEdit({ handleClose, todoId }) {
   const [updatedTodo, setUpdatedTodo] = useState("");
   const [updatedDesc, setUpdatedDesc] = useState("");
-  const [todoById, setTodoById] = useState([]);
 
   useEffect(() => {
     const getTodo = async () => {
       try {
         const res = await axios.get("http://localhost:5000/todos/" + todoId);
         const response = res.data.data;
-        setTodoById(response);
         setUpdatedTodo(response.todo);
         setUpdatedDesc(response.description);
       } catch (err) {
@@ -61,13 +59,11 @@ export default function TodoEdit({ handleClose, todoId }) {
       </div>
       <input
         className="mb-3 w-full rounded-xl border-[1.6px] border-outlineGray bg-transparent px-5 py-5 text-lg font-medium text-allGray placeholder-allGray outline-none"
-        // placeholder={todoById.todo}
         value={updatedTodo}
         onChange={handleTodoChange}
       />
       <input
         className="w-full rounded-xl border-[1.6px] border-outlineGray bg-transparent px-5 py-5 pb-28 text-lg font-medium text-allGray placeholder-allGray outline-none"
-        // placeholder={todoById.description}
         value={updatedDesc}
         onChange={handleDescChange}
       />
