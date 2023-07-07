@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CancelIcon from "../../assets/Todo/CancelIcon";
 
-export default function TodoEdit({ handleClose, todoId }) {
+export default function TodoEdit({ handleClose, todoId, handleRender }) {
   const [updatedTodo, setUpdatedTodo] = useState("");
   const [updatedDesc, setUpdatedDesc] = useState("");
 
@@ -31,6 +31,8 @@ export default function TodoEdit({ handleClose, todoId }) {
   const handleDeleteTask = async () => {
     try {
       const res = await axios.delete("http://localhost:5000/todos/" + todoId);
+      handleRender();
+      handleClose();
     } catch (err) {
       console.log(err);
     }
@@ -77,7 +79,11 @@ export default function TodoEdit({ handleClose, todoId }) {
           </span>
         </button>
         <button
-          onClick={handleSaveTask}
+          onClick={() => {
+            handleSaveTask();
+            handleRender();
+            handleClose();
+          }}
           className="w-full rounded-lg bg-iyellow"
         >
           <span className="text-roboto text-lg font-bold text-titleBlack">

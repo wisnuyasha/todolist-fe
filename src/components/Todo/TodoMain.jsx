@@ -11,7 +11,7 @@ export default function TodoMain() {
   const [showEdit, setShowEdit] = useState(false);
   const [editTodo, setEditTodo] = useState([]);
   const [todoList, setTodoList] = useState([]);
-  const [trigger, setTrigger] = useState(true)
+  const [trigger, setTrigger] = useState(true);
 
   useEffect(() => {
     const getTodo = async () => {
@@ -29,6 +29,10 @@ export default function TodoMain() {
     setShowAdd(!showAdd);
   }
 
+  function triggerRender() {
+    setTrigger(!trigger);
+  }
+
   function showEditTask(id) {
     setShowEdit(!showEdit);
     setEditTodo(id);
@@ -41,7 +45,7 @@ export default function TodoMain() {
           ...todo,
           checklist: true,
         });
-        setTrigger(!trigger);
+        triggerRender()
       } catch (err) {
         console.log(err);
       }
@@ -51,7 +55,7 @@ export default function TodoMain() {
           ...todo,
           checklist: false,
         });
-        setTrigger(!trigger);
+        triggerRender()
       } catch (err) {
         console.log(err);
       }
@@ -62,9 +66,9 @@ export default function TodoMain() {
     // px sementara
     <div className="z-0 flex flex-col lg:px-16">
       <TodoBar handleShowAdd={showAddTask} />
-      {showAdd ? <TodoAdd handleClose={showAddTask} /> : null}
+      {showAdd ? <TodoAdd handleClose={showAddTask} handleRender={triggerRender} /> : null}
       {showEdit ? (
-        <TodoEdit handleClose={showEditTask} todoId={editTodo} />
+        <TodoEdit handleClose={showEditTask} todoId={editTodo} handleRender={triggerRender} />
       ) : null}
       {todoList
         ? todoList.map((todo) => (

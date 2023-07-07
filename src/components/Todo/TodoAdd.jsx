@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import CancelIcon from "../../assets/Todo/CancelIcon";
 
-export default function TodoAdd({ handleClose }) {
+export default function TodoAdd({ handleClose, handleRender }) {
   const [todo, setTodo] = useState("");
   const [desc, setDesc] = useState("");
 
@@ -20,6 +20,8 @@ export default function TodoAdd({ handleClose }) {
         todo: todo,
         description: desc,
       });
+      handleRender();
+      handleClose();
     } catch (err) {
       console.log(err);
     }
