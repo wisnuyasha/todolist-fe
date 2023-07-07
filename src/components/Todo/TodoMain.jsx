@@ -63,8 +63,7 @@ export default function TodoMain() {
   }
 
   return (
-    // px sementara
-    <div className="z-0 flex flex-col lg:px-16">
+    <div className="z-0 flex flex-col lg:pl-32">
       <TodoBar handleShowAdd={showAddTask} />
       {showAdd ? <TodoAdd handleClose={showAddTask} handleRender={triggerRender} /> : null}
       {showEdit ? (
