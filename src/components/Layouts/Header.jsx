@@ -18,11 +18,13 @@ export default function Header() {
   return (
     <nav className="mb-4 flex items-center">
       <HamburgetMenu />
-      <h1 className=" ml-6 lg:ml-24 font-roboto text-[1.6rem] lg:text-4xl xl:text-5xl font-bold text-titleBlack">
+      <h1 className=" ml-6 font-roboto text-[1.6rem] font-bold text-titleBlack lg:ml-24 lg:text-4xl xl:text-5xl">
         To-do
       </h1>
-      <div className="ml-4 lg:ml-6 xl:ml-9 rounded-xl border-[1px] border-outlineGray px-3 py-1">
-        <span className=" text text-xl lg:text-3xl xl:text-4xl font-medium">{totalTodo}</span>
+      <div className="ml-4 rounded-xl border-[1px] border-outlineGray px-3 py-1 lg:ml-6 xl:ml-9">
+        <span className=" text text-xl font-medium lg:text-3xl xl:text-4xl">
+          {totalTodo}
+        </span>
       </div>
     </nav>
   );

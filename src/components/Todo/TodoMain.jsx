@@ -45,7 +45,7 @@ export default function TodoMain() {
           ...todo,
           checklist: true,
         });
-        triggerRender()
+        triggerRender();
       } catch (err) {
         console.log(err);
       }
@@ -55,7 +55,7 @@ export default function TodoMain() {
           ...todo,
           checklist: false,
         });
-        triggerRender()
+        triggerRender();
       } catch (err) {
         console.log(err);
       }
@@ -63,11 +63,21 @@ export default function TodoMain() {
   }
 
   return (
-    <div className="z-0 flex flex-col lg:pl-32">
+    <div
+      className={`z-0 flex flex-col lg:pl-32 ${
+        showAdd || showEdit ? "lg:w-[64%]" : ""
+      }`}
+    >
       <TodoBar handleShowAdd={showAddTask} />
-      {showAdd ? <TodoAdd handleClose={showAddTask} handleRender={triggerRender} /> : null}
+      {showAdd ? (
+        <TodoAdd handleClose={showAddTask} handleRender={triggerRender} />
+      ) : null}
       {showEdit ? (
-        <TodoEdit handleClose={showEditTask} todoId={editTodo} handleRender={triggerRender} />
+        <TodoEdit
+          handleClose={showEditTask}
+          todoId={editTodo}
+          handleRender={triggerRender}
+        />
       ) : null}
       {todoList
         ? todoList.map((todo) => (
