@@ -6,7 +6,7 @@ import TodoBar from "./TodoBar";
 import TodoAdd from "./TodoAdd";
 import TodoEdit from "./TodoEdit";
 
-export default function TodoMain() {
+export default function TodoMain({ showMenu }) {
   const [showAdd, setShowAdd] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [editTodo, setEditTodo] = useState([]);
@@ -27,6 +27,7 @@ export default function TodoMain() {
 
   function showAddTask() {
     setShowAdd(!showAdd);
+    setShowEdit(false)
   }
 
   function triggerRender() {
@@ -35,6 +36,7 @@ export default function TodoMain() {
 
   function showEditTask(id) {
     setShowEdit(!showEdit);
+    setShowAdd(false);
     setEditTodo(id);
   }
 
@@ -65,8 +67,8 @@ export default function TodoMain() {
   return (
     <div
       className={`z-0 flex flex-col lg:pl-32 ${
-        showAdd || showEdit ? "lg:w-[64%]" : ""
-      }`}
+        showMenu ? "lg:pl-52 xl:pl-[17rem]" : ""
+      } ${showAdd || showEdit ? "lg:w-[64%]" : ""}`}
     >
       <TodoBar handleShowAdd={showAddTask} />
       {showAdd ? (

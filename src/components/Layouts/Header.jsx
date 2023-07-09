@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import HamburgetMenu from "../../assets/Layouts/Header/HamburgetMenu";
 
-export default function Header() {
+export default function Header({ handleShow, showState }) {
   const [totalTodo, setTotaltodo] = useState(0);
   useEffect(() => {
     const getTodo = async () => {
@@ -16,8 +16,17 @@ export default function Header() {
     getTodo();
   }, []);
   return (
-    <nav className="mb-4 flex items-center">
-      <HamburgetMenu />
+    <nav
+      className={`mb-4 flex items-center ${
+        showState ? "lg:ml-28 xl:ml-44" : ""
+      }`}
+    >
+      <div
+        // onClick={handleShow}
+        className={`h-fit w-fit cursor-pointer ${showState ? "lg:hidden" : ""}`}
+      >
+        <HamburgetMenu />
+      </div>
       <h1 className=" ml-6 font-roboto text-[1.6rem] font-bold text-titleBlack lg:ml-24 lg:text-4xl xl:text-5xl">
         To-do
       </h1>
