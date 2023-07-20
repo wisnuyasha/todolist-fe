@@ -14,8 +14,7 @@ export default function TodoEdit({ handleClose, todoId, handleRender }) {
       };
     },
   });
-  const { register, handleSubmit, formState } = form;
-  const { errors } = formState;
+  const { register, handleSubmit } = form;
 
   const handleDeleteTask = async () => {
     try {
@@ -27,11 +26,11 @@ export default function TodoEdit({ handleClose, todoId, handleRender }) {
     }
   };
 
-  const onSubmit = async (addTodo) => {
+  const onSubmit = async (editTodo) => {
     try {
       await axios.put("http://localhost:5000/todos/" + todoId, {
-        todo: addTodo.task,
-        description: addTodo.desc,
+        todo: editTodo.task,
+        description: editTodo.desc,
       });
       handleRender();
       handleClose();
